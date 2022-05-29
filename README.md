@@ -4,6 +4,8 @@ This is the code for time timer in elm.
 
 ![Time Timer Example](img/screenshot.png)
 
+[Running Code](https://auryn31.github.io/time-timer-elm/)
+
 ## Getting started
 
 ```sh
