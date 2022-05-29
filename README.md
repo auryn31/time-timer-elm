@@ -1,4 +1,8 @@
-# Template for Elm Project
+# Time Timer
+
+This is the code for time timer in elm.
+
+![Time Timer Example](img/screenshot.png)
 
 ## Getting started
 
