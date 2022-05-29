@@ -7006,7 +7006,7 @@ var $author$project$Main$view = function (model) {
 									[
 										$elm$html$Html$text(
 										$elm$core$String$fromInt(
-											$elm$core$Basics$round(model.m / 60)) + ' min')
+											$elm$core$Basics$floor(model.m / 60)) + ' min')
 									])),
 								$elm$html$Html$text(' and '),
 								A2(

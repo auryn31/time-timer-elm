@@ -141,7 +141,7 @@ view model =
                 ]
             , p []
                 [ text "Time left: "
-                , b [] [ text (String.fromInt (round (toFloat model.secondsLeft / 60)) ++ " min") ]
+                , b [] [ text (String.fromInt (floor (toFloat model.secondsLeft / 60)) ++ " min") ]
                 , text " and "
                 , b [] [ text (String.fromInt (modBy 60 model.secondsLeft) ++ " s") ]
                 ]
