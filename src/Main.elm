@@ -83,13 +83,13 @@ update msg model =
 
 parseMinutesInput : Int -> String -> Int
 parseMinutesInput default value =
-    case String.toInt value of
+    case String.toFloat value of
         Just minutes ->
             if minutes > 60 then
                 60 * 60
 
             else if minutes >= 0 then
-                minutes * 60
+                round (minutes * 60)
 
             else
                 0

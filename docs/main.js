@@ -5616,12 +5616,14 @@ var $author$project$Main$subscriptions = function (_v0) {
 };
 var $elm$core$Basics$not = _Basics_not;
 var $elm$core$Basics$ge = _Utils_ge;
+var $elm$core$Basics$round = _Basics_round;
+var $elm$core$String$toFloat = _String_toFloat;
 var $author$project$Main$parseMinutesInput = F2(
 	function (_default, value) {
-		var _v0 = $elm$core$String$toInt(value);
+		var _v0 = $elm$core$String$toFloat(value);
 		if (!_v0.$) {
 			var minutes = _v0.a;
-			return (minutes > 60) ? (60 * 60) : ((minutes >= 0) ? (minutes * 60) : 0);
+			return (minutes > 60) ? (60 * 60) : ((minutes >= 0) ? $elm$core$Basics$round(minutes * 60) : 0);
 		} else {
 			return _default;
 		}
@@ -6426,7 +6428,6 @@ var $author$project$Main$renderText = F2(
 				'15')
 			]);
 	});
-var $elm$core$Basics$round = _Basics_round;
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$canvas = _VirtualDom_node('canvas');
