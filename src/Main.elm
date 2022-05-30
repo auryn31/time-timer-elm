@@ -134,7 +134,7 @@ view model =
             [ Canvas.toHtml
                 ( w, h )
                 []
-                (List.append (renderText center radius) (renderPieChart model.secondsLeft center radius))
+                (List.append (List.append (renderText center radius) (renderPieChart model.secondsLeft center radius)) (addHelperLines center radius))
             , div [ style "display" "flex", style "flex-direction" "row", style "align-items" "baseline", style "gap" "1rem" ]
                 [ input [ type_ "number", Attributes.placeholder "60", onInput SetStartTime ] []
                 , text "min"
@@ -159,17 +159,17 @@ view model =
 renderText : ( Float, Float ) -> Float -> List Canvas.Renderable
 renderText center radius =
     [ Canvas.text textStyle
-        ( Tuple.first center, Tuple.second center - radius - 2 )
+        ( Tuple.first center, Tuple.second center - radius - 8 )
         "0"
     , Canvas.text textStyle
-        ( Tuple.first center + radius + 14, Tuple.second center + 8 )
-        "15"
+        ( Tuple.first center + radius + 20, Tuple.second center + 8 )
+        "45"
     , Canvas.text textStyle
         ( Tuple.first center, Tuple.second center + radius + 20 )
         "30"
     , Canvas.text textStyle
-        ( Tuple.first center - radius - 16, Tuple.second center + 8 )
-        "45"
+        ( Tuple.first center - radius - 20, Tuple.second center + 8 )
+        "15"
     ]
 
 
@@ -179,7 +179,7 @@ textStyle =
 
 
 renderPieChart : Int -> ( Float, Float ) -> Float -> List Canvas.Renderable
-renderPieChart secondsLeft center radius =
+renderPieChart secondsLeft (( x, y ) as center) radius =
     let
         redDegrees =
             (toFloat secondsLeft / 3600) * 360
@@ -188,12 +188,51 @@ renderPieChart secondsLeft center radius =
         [ renderPieSlice Color.lightGray center radius (degrees 0) (degrees (270 - redDegrees))
         , renderPieSlice Color.lightRed center radius (degrees (270 - redDegrees)) (degrees 0)
         , renderPieSlice Color.lightRed center radius (degrees 0) (degrees 270)
+        , Canvas.shapes [ stroke Color.black ]
+            [ Canvas.arc
+                center
+                radius
+                { startAngle = 0
+                , endAngle = 360
+                , clockwise = True
+                }
+            , Canvas.path ( x + radius * cos 0 + 5, y + radius * sin 0 ) [ Canvas.lineTo ( x + radius * cos 0 - 10, y + radius * sin 0 ) ]
+            , Canvas.path ( x + radius * cos (degrees 45) - 7, y + radius * sin (degrees 45) - 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 45) + 4, y + radius * sin (degrees 45) + 4 ) ]
+            , Canvas.path ( x + radius * cos (degrees 90), y + radius * sin (degrees 90) - 10 ) [ Canvas.lineTo ( x + radius * cos (degrees 90), y + radius * sin (degrees 90) + 5 ) ]
+            , Canvas.path ( x + radius * cos (degrees 135) - 7, y + radius * sin (degrees 135) + 4 ) [ Canvas.lineTo ( x + radius * cos (degrees 135) + 4, y + radius * sin (degrees 135) - 7 ) ]
+            , Canvas.path ( x + radius * cos (degrees 180) - 4, y + radius * sin (degrees 180) ) [ Canvas.lineTo ( x + radius * cos (degrees 180) + 10, y + radius * sin (degrees 180) ) ]
+            , Canvas.path ( x + radius * cos (degrees 225) - 4, y + radius * sin (degrees 225) - 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 225) + 7, y + radius * sin (degrees 225) + 4 ) ]
+            , Canvas.path ( x + radius * cos (degrees 270), y + radius * sin (degrees 270) + 10 ) [ Canvas.lineTo ( x + radius * cos (degrees 270), y + radius * sin (degrees 270) - 5 ) ]
+            , Canvas.path ( x + radius * cos (degrees 315) - 4, y + radius * sin (degrees 315) + 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 315) + 7, y + radius * sin (degrees 315) - 4 ) ]
+            ]
         ]
 
     else
         [ renderPieSlice Color.lightGray center radius (degrees 270) (degrees (270 - redDegrees))
         , renderPieSlice Color.lightRed center radius (degrees (270 - redDegrees)) (degrees 270)
         ]
+
+
+addHelperLines : ( Float, Float ) -> Float -> List Canvas.Renderable
+addHelperLines (( x, y ) as center) radius =
+    [ Canvas.shapes [ stroke Color.black ]
+        [ Canvas.arc
+            center
+            radius
+            { startAngle = 0
+            , endAngle = 360
+            , clockwise = True
+            }
+        , Canvas.path ( x + radius * cos 0 + 5, y + radius * sin 0 ) [ Canvas.lineTo ( x + radius * cos 0 - 10, y + radius * sin 0 ) ]
+        , Canvas.path ( x + radius * cos (degrees 45) - 7, y + radius * sin (degrees 45) - 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 45) + 4, y + radius * sin (degrees 45) + 4 ) ]
+        , Canvas.path ( x + radius * cos (degrees 90), y + radius * sin (degrees 90) - 10 ) [ Canvas.lineTo ( x + radius * cos (degrees 90), y + radius * sin (degrees 90) + 5 ) ]
+        , Canvas.path ( x + radius * cos (degrees 135) - 7, y + radius * sin (degrees 135) + 4 ) [ Canvas.lineTo ( x + radius * cos (degrees 135) + 4, y + radius * sin (degrees 135) - 7 ) ]
+        , Canvas.path ( x + radius * cos (degrees 180) - 4, y + radius * sin (degrees 180) ) [ Canvas.lineTo ( x + radius * cos (degrees 180) + 10, y + radius * sin (degrees 180) ) ]
+        , Canvas.path ( x + radius * cos (degrees 225) - 4, y + radius * sin (degrees 225) - 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 225) + 7, y + radius * sin (degrees 225) + 4 ) ]
+        , Canvas.path ( x + radius * cos (degrees 270), y + radius * sin (degrees 270) + 10 ) [ Canvas.lineTo ( x + radius * cos (degrees 270), y + radius * sin (degrees 270) - 5 ) ]
+        , Canvas.path ( x + radius * cos (degrees 315) - 4, y + radius * sin (degrees 315) + 7 ) [ Canvas.lineTo ( x + radius * cos (degrees 315) + 7, y + radius * sin (degrees 315) - 4 ) ]
+        ]
+    ]
 
 
 renderPieSlice : Color -> ( Float, Float ) -> Float -> Float -> Float -> Canvas.Renderable

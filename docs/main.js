@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.P.E === region.X.E)
+	if (region.R.E === region._.E)
 	{
-		return 'on line ' + region.P.E;
+		return 'on line ' + region.R.E;
 	}
-	return 'on lines ' + region.P.E + ' through ' + region.X.E;
+	return 'on lines ' + region.R.E + ' through ' + region._.E;
 }
 
 
@@ -1857,7 +1857,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aS,
+		impl.aT,
 		impl.a4,
 		impl.a3,
 		function() { return function() {} }
@@ -2705,8 +2705,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		s: func(record.s),
-		Q: record.Q,
-		N: record.N
+		T: record.T,
+		P: record.P
 	}
 });
 
@@ -2975,10 +2975,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.s;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.Q;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.T;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.N) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.P) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3928,7 +3928,7 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aS,
+		impl.aT,
 		impl.a4,
 		impl.a3,
 		function(sendToApp, initialModel) {
@@ -3964,11 +3964,11 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aS,
+		impl.aT,
 		impl.a4,
 		impl.a3,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.O && impl.O(sendToApp)
+			var divertHrefToApp = impl.Q && impl.Q(sendToApp)
 			var view = impl.a5;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -3977,12 +3977,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aE);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aH);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.av) && (_VirtualDom_doc.title = title = doc.av);
+				(title !== doc.ay) && (_VirtualDom_doc.title = title = doc.ay);
 			});
 		}
 	);
@@ -4038,12 +4038,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aY;
-	var onUrlRequest = impl.aZ;
+	var onUrlChange = impl.aZ;
+	var onUrlRequest = impl.a_;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		O: function(sendToApp)
+		Q: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.am === next.am
-							&& curr.aa === next.aa
-							&& curr.aj.a === next.aj.a
+							&& curr.ap === next.ap
+							&& curr.ad === next.ad
+							&& curr.am.a === next.am.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4069,9 +4069,9 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aS: function(flags)
+		aT: function(flags)
 		{
-			return A3(impl.aS, flags, _Browser_getUrl(), key);
+			return A3(impl.aT, flags, _Browser_getUrl(), key);
 		},
 		a5: impl.a5,
 		a4: impl.a4,
@@ -4141,17 +4141,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aQ: 'hidden', aF: 'visibilitychange' }
+		? { aR: 'hidden', aI: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aQ: 'mozHidden', aF: 'mozvisibilitychange' }
+		? { aR: 'mozHidden', aI: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aQ: 'msHidden', aF: 'msvisibilitychange' }
+		? { aR: 'msHidden', aI: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aQ: 'webkitHidden', aF: 'webkitvisibilitychange' }
-		: { aQ: 'hidden', aF: 'visibilitychange' };
+		? { aR: 'webkitHidden', aI: 'webkitvisibilitychange' }
+		: { aR: 'hidden', aI: 'visibilitychange' };
 }
 
 
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		ar: _Browser_getScene(),
-		aw: {
-			ay: _Browser_window.pageXOffset,
-			az: _Browser_window.pageYOffset,
-			ax: _Browser_doc.documentElement.clientWidth,
-			_: _Browser_doc.documentElement.clientHeight
+		au: _Browser_getScene(),
+		az: {
+			aB: _Browser_window.pageXOffset,
+			aC: _Browser_window.pageYOffset,
+			aA: _Browser_doc.documentElement.clientWidth,
+			ac: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4247,8 +4247,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		ax: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		_: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aA: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		ac: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			ar: {
-				ax: node.scrollWidth,
-				_: node.scrollHeight
+			au: {
+				aA: node.scrollWidth,
+				ac: node.scrollHeight
 			},
-			aw: {
-				ay: node.scrollLeft,
-				az: node.scrollTop,
-				ax: node.clientWidth,
-				_: node.clientHeight
+			az: {
+				aB: node.scrollLeft,
+				aC: node.scrollTop,
+				aA: node.clientWidth,
+				ac: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			ar: _Browser_getScene(),
-			aw: {
-				ay: x,
-				az: y,
-				ax: _Browser_doc.documentElement.clientWidth,
-				_: _Browser_doc.documentElement.clientHeight
+			au: _Browser_getScene(),
+			az: {
+				aB: x,
+				aC: y,
+				aA: _Browser_doc.documentElement.clientWidth,
+				ac: _Browser_doc.documentElement.clientHeight
 			},
-			aK: {
-				ay: x + rect.left,
-				az: y + rect.top,
-				ax: rect.width,
-				_: rect.height
+			aM: {
+				aB: x + rect.left,
+				aC: y + rect.top,
+				aA: rect.width,
+				ac: rect.height
 			}
 		};
 	});
@@ -4905,7 +4905,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {Z: fragment, aa: host, ag: path, aj: port_, am: protocol, an: query};
+		return {ab: fragment, ad: host, aj: path, am: port_, ap: protocol, aq: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5186,7 +5186,7 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$Model = F3(
 	function (title, secondsLeft, isRuning) {
-		return {A: isRuning, m: secondsLeft, av: title};
+		return {A: isRuning, m: secondsLeft, ay: title};
 	});
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5204,7 +5204,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {al: processes, at: taggers};
+		return {ao: processes, aw: taggers};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5496,7 +5496,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.al;
+		var processes = _v0.ao;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -5565,7 +5565,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.at);
+		var _v0 = A2($elm$core$Dict$get, interval, state.aw);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -5660,141 +5660,26 @@ var $author$project$Main$SetStartTime = function (a) {
 	return {$: 2, a: a};
 };
 var $author$project$Main$StartStopTimer = {$: 1};
-var $elm$core$List$append = F2(
-	function (xs, ys) {
-		if (!ys.b) {
-			return xs;
-		} else {
-			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
-		}
-	});
-var $elm$html$Html$b = _VirtualDom_node('b');
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Main$bodyStyle = _List_fromArray(
-	[
-		A2($elm$html$Html$Attributes$style, 'margin', '2rem'),
-		A2($elm$html$Html$Attributes$style, 'font-family', 'roboto'),
-		A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-		A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
-		A2($elm$html$Html$Attributes$style, 'align-items', 'center')
-	]);
-var $elm$html$Html$button = _VirtualDom_node('button');
-var $author$project$Main$centerHeadlineStyle = _List_fromArray(
-	[
-		A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-		A2($elm$html$Html$Attributes$style, 'flex-direction', 'row'),
-		A2($elm$html$Html$Attributes$style, 'justify-content', 'center')
-	]);
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Main$h = 500;
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$html$Html$input = _VirtualDom_node('input');
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
-};
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $elm$html$Html$Events$alwaysStop = function (x) {
-	return _Utils_Tuple2(x, true);
-};
-var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
-	return {$: 1, a: a};
-};
-var $elm$html$Html$Events$stopPropagationOn = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
-	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
-var $elm$html$Html$Events$targetValue = A2(
-	$elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'value']),
-	$elm$json$Json$Decode$string);
-var $elm$html$Html$Events$onInput = function (tagger) {
-	return A2(
-		$elm$html$Html$Events$stopPropagationOn,
-		'input',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$html$Html$Events$alwaysStop,
-			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
-};
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $author$project$Main$pieChartInputStyle = function (width) {
-	return _List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-			A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
-			A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
-			A2($elm$html$Html$Attributes$style, 'gap', '1rem'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'max-width',
-			$elm$core$String$fromInt(width) + 'px')
-		]);
-};
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $elm$core$Basics$pi = _Basics_pi;
-var $elm$core$Basics$degrees = function (angleInDegrees) {
-	return (angleInDegrees * $elm$core$Basics$pi) / 180;
-};
-var $avh4$elm_color$Color$RgbaSpace = F4(
-	function (a, b, c, d) {
-		return {$: 0, a: a, b: b, c: c, d: d};
-	});
-var $avh4$elm_color$Color$lightGray = A4($avh4$elm_color$Color$RgbaSpace, 238 / 255, 238 / 255, 236 / 255, 1.0);
-var $avh4$elm_color$Color$lightRed = A4($avh4$elm_color$Color$RgbaSpace, 239 / 255, 41 / 255, 41 / 255, 1.0);
 var $joakin$elm_canvas$Canvas$Internal$Canvas$Arc = F5(
 	function (a, b, c, d, e) {
 		return {$: 3, a: a, b: b, c: c, d: d, e: e};
 	});
 var $joakin$elm_canvas$Canvas$arc = F3(
 	function (pos, radius, _v0) {
-		var startAngle = _v0.a2;
-		var endAngle = _v0.aL;
-		var clockwise = _v0.aG;
+		var startAngle = _v0.S;
+		var endAngle = _v0.L;
+		var clockwise = _v0.K;
 		return A5($joakin$elm_canvas$Canvas$Internal$Canvas$Arc, pos, radius, startAngle, endAngle, !clockwise);
 	});
+var $avh4$elm_color$Color$RgbaSpace = F4(
+	function (a, b, c, d) {
+		return {$: 0, a: a, b: b, c: c, d: d};
+	});
+var $avh4$elm_color$Color$black = A4($avh4$elm_color$Color$RgbaSpace, 0 / 255, 0 / 255, 0 / 255, 1.0);
 var $elm$core$Basics$cos = _Basics_cos;
-var $joakin$elm_canvas$Canvas$Internal$Canvas$Fill = function (a) {
-	return {$: 1, a: a};
-};
-var $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp = function (a) {
-	return {$: 2, a: a};
-};
-var $joakin$elm_canvas$Canvas$Settings$fill = function (color) {
-	return $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp(
-		$joakin$elm_canvas$Canvas$Internal$Canvas$Fill(color));
+var $elm$core$Basics$pi = _Basics_pi;
+var $elm$core$Basics$degrees = function (angleInDegrees) {
+	return (angleInDegrees * $elm$core$Basics$pi) / 180;
 };
 var $joakin$elm_canvas$Canvas$Internal$Canvas$LineTo = function (a) {
 	return {$: 2, a: a};
@@ -5815,6 +5700,9 @@ var $joakin$elm_canvas$Canvas$Internal$Canvas$DrawableShapes = function (a) {
 };
 var $joakin$elm_canvas$Canvas$Internal$Canvas$NotSpecified = {$: 0};
 var $joakin$elm_canvas$Canvas$Internal$Canvas$Renderable = $elm$core$Basics$identity;
+var $joakin$elm_canvas$Canvas$Internal$Canvas$Fill = function (a) {
+	return {$: 1, a: a};
+};
 var $joakin$elm_canvas$Canvas$Internal$Canvas$FillAndStroke = F2(
 	function (a, b) {
 		return {$: 3, a: a, b: b};
@@ -5931,6 +5819,269 @@ var $joakin$elm_canvas$Canvas$shapes = F2(
 			});
 	});
 var $elm$core$Basics$sin = _Basics_sin;
+var $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp = function (a) {
+	return {$: 2, a: a};
+};
+var $joakin$elm_canvas$Canvas$Settings$stroke = function (color) {
+	return $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp(
+		$joakin$elm_canvas$Canvas$Internal$Canvas$Stroke(color));
+};
+var $author$project$Main$addHelperLines = F2(
+	function (center, radius) {
+		var x = center.a;
+		var y = center.b;
+		return _List_fromArray(
+			[
+				A2(
+				$joakin$elm_canvas$Canvas$shapes,
+				_List_fromArray(
+					[
+						$joakin$elm_canvas$Canvas$Settings$stroke($avh4$elm_color$Color$black)
+					]),
+				_List_fromArray(
+					[
+						A3(
+						$joakin$elm_canvas$Canvas$arc,
+						center,
+						radius,
+						{K: true, L: 360, S: 0}),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(0))) + 5,
+							y + (radius * $elm$core$Basics$sin(0))),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(0))) - 10,
+									y + (radius * $elm$core$Basics$sin(0))))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(45)))) - 7,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(45)))) - 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(45)))) + 4,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(45)))) + 4))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(90))),
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(90)))) - 10),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(90))),
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(90)))) + 5))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(135)))) - 7,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(135)))) + 4),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(135)))) + 4,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(135)))) - 7))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(180)))) - 4,
+							y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(180)))),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(180)))) + 10,
+									y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(180)))))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(225)))) - 4,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(225)))) - 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(225)))) + 7,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(225)))) + 4))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(270))),
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(270)))) + 10),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(270))),
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(270)))) - 5))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(315)))) - 4,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(315)))) + 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(315)))) + 7,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(315)))) - 4))
+							]))
+					]))
+			]);
+	});
+var $elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
+		}
+	});
+var $elm$html$Html$b = _VirtualDom_node('b');
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$bodyStyle = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'margin', '2rem'),
+		A2($elm$html$Html$Attributes$style, 'font-family', 'roboto'),
+		A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+		A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+		A2($elm$html$Html$Attributes$style, 'align-items', 'center')
+	]);
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $author$project$Main$centerHeadlineStyle = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+		A2($elm$html$Html$Attributes$style, 'flex-direction', 'row'),
+		A2($elm$html$Html$Attributes$style, 'justify-content', 'center')
+	]);
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $author$project$Main$h = 500;
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 0, a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $author$project$Main$pieChartInputStyle = function (width) {
+	return _List_fromArray(
+		[
+			A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+			A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+			A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
+			A2($elm$html$Html$Attributes$style, 'gap', '1rem'),
+			A2(
+			$elm$html$Html$Attributes$style,
+			'max-width',
+			$elm$core$String$fromInt(width) + 'px')
+		]);
+};
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $avh4$elm_color$Color$lightGray = A4($avh4$elm_color$Color$RgbaSpace, 238 / 255, 238 / 255, 236 / 255, 1.0);
+var $avh4$elm_color$Color$lightRed = A4($avh4$elm_color$Color$RgbaSpace, 239 / 255, 41 / 255, 41 / 255, 1.0);
+var $joakin$elm_canvas$Canvas$Settings$fill = function (color) {
+	return $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp(
+		$joakin$elm_canvas$Canvas$Internal$Canvas$Fill(color));
+};
 var $author$project$Main$renderPieSlice = F5(
 	function (color, center, radius, startAngle, endAngle) {
 		var x = center.a;
@@ -5962,11 +6113,13 @@ var $author$project$Main$renderPieSlice = F5(
 					$joakin$elm_canvas$Canvas$arc,
 					center,
 					radius,
-					{aG: true, aL: endAngle, a2: startAngle})
+					{K: true, L: endAngle, S: startAngle})
 				]));
 	});
 var $author$project$Main$renderPieChart = F3(
 	function (secondsLeft, center, radius) {
+		var x = center.a;
+		var y = center.b;
 		var redDegrees = (secondsLeft / 3600) * 360;
 		return (270 < redDegrees) ? _List_fromArray(
 			[
@@ -5990,7 +6143,145 @@ var $author$project$Main$renderPieChart = F3(
 				center,
 				radius,
 				$elm$core$Basics$degrees(0),
-				$elm$core$Basics$degrees(270))
+				$elm$core$Basics$degrees(270)),
+				A2(
+				$joakin$elm_canvas$Canvas$shapes,
+				_List_fromArray(
+					[
+						$joakin$elm_canvas$Canvas$Settings$stroke($avh4$elm_color$Color$black)
+					]),
+				_List_fromArray(
+					[
+						A3(
+						$joakin$elm_canvas$Canvas$arc,
+						center,
+						radius,
+						{K: true, L: 360, S: 0}),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(0))) + 5,
+							y + (radius * $elm$core$Basics$sin(0))),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(0))) - 10,
+									y + (radius * $elm$core$Basics$sin(0))))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(45)))) - 7,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(45)))) - 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(45)))) + 4,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(45)))) + 4))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(90))),
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(90)))) - 10),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(90))),
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(90)))) + 5))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(135)))) - 7,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(135)))) + 4),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(135)))) + 4,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(135)))) - 7))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(180)))) - 4,
+							y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(180)))),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(180)))) + 10,
+									y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(180)))))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(225)))) - 4,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(225)))) - 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(225)))) + 7,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(225)))) + 4))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(270))),
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(270)))) + 10),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(270))),
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(270)))) - 5))
+							])),
+						A2(
+						$joakin$elm_canvas$Canvas$path,
+						_Utils_Tuple2(
+							(x + (radius * $elm$core$Basics$cos(
+								$elm$core$Basics$degrees(315)))) - 4,
+							(y + (radius * $elm$core$Basics$sin(
+								$elm$core$Basics$degrees(315)))) + 7),
+						_List_fromArray(
+							[
+								$joakin$elm_canvas$Canvas$lineTo(
+								_Utils_Tuple2(
+									(x + (radius * $elm$core$Basics$cos(
+										$elm$core$Basics$degrees(315)))) + 7,
+									(y + (radius * $elm$core$Basics$sin(
+										$elm$core$Basics$degrees(315)))) - 4))
+							]))
+					]))
 			]) : _List_fromArray(
 			[
 				A5(
@@ -6025,7 +6316,7 @@ var $joakin$elm_canvas$Canvas$text = F3(
 				j: _List_Nil,
 				q: $joakin$elm_canvas$Canvas$Internal$Canvas$NotSpecified,
 				r: $joakin$elm_canvas$Canvas$Internal$Canvas$DrawableText(
-					{K: $elm$core$Maybe$Nothing, ai: point, R: str})
+					{M: $elm$core$Maybe$Nothing, al: point, U: str})
 			});
 	});
 var $joakin$elm_canvas$Canvas$Settings$Text$Center = 2;
@@ -6091,23 +6382,23 @@ var $joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$font = function (f) 
 		$elm$json$Json$Encode$string(f));
 };
 var $joakin$elm_canvas$Canvas$Settings$Text$font = function (_v0) {
-	var size = _v0.a1;
-	var family = _v0.aN;
+	var size = _v0.a2;
+	var family = _v0.aO;
 	return $joakin$elm_canvas$Canvas$Internal$Canvas$SettingCommand(
 		$joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$font(
 			$elm$core$String$fromInt(size) + ('px ' + family)));
 };
 var $avh4$elm_color$Color$fromRgba = function (components) {
-	return A4($avh4$elm_color$Color$RgbaSpace, components.a$, components.aO, components.aD, components.aB);
+	return A4($avh4$elm_color$Color$RgbaSpace, components.a0, components.aP, components.aG, components.aE);
 };
 var $author$project$Main$textStyle = _List_fromArray(
 	[
 		$joakin$elm_canvas$Canvas$Settings$Text$font(
-		{aN: 'roboto', a1: 24}),
+		{aO: 'roboto', a2: 24}),
 		$joakin$elm_canvas$Canvas$Settings$Text$align(2),
 		$joakin$elm_canvas$Canvas$Settings$fill(
 		$avh4$elm_color$Color$fromRgba(
-			{aB: 1, aD: 118 / 255, aO: 108 / 255, a$: 96 / 255}))
+			{aE: 1, aG: 118 / 255, aP: 108 / 255, a0: 96 / 255}))
 	]);
 var $author$project$Main$renderText = F2(
 	function (center, radius) {
@@ -6116,13 +6407,13 @@ var $author$project$Main$renderText = F2(
 				A3(
 				$joakin$elm_canvas$Canvas$text,
 				$author$project$Main$textStyle,
-				_Utils_Tuple2(center.a, (center.b - radius) - 2),
+				_Utils_Tuple2(center.a, (center.b - radius) - 8),
 				'0'),
 				A3(
 				$joakin$elm_canvas$Canvas$text,
 				$author$project$Main$textStyle,
-				_Utils_Tuple2((center.a + radius) + 14, center.b + 8),
-				'15'),
+				_Utils_Tuple2((center.a + radius) + 20, center.b + 8),
+				'45'),
 				A3(
 				$joakin$elm_canvas$Canvas$text,
 				$author$project$Main$textStyle,
@@ -6131,8 +6422,8 @@ var $author$project$Main$renderText = F2(
 				A3(
 				$joakin$elm_canvas$Canvas$text,
 				$author$project$Main$textStyle,
-				_Utils_Tuple2((center.a - radius) - 16, center.b + 8),
-				'45')
+				_Utils_Tuple2((center.a - radius) - 20, center.b + 8),
+				'15')
 			]);
 	});
 var $elm$core$Basics$round = _Basics_round;
@@ -6599,7 +6890,7 @@ var $joakin$elm_canvas$Canvas$renderTextFill = F5(
 	function (txt, x, y, maybeColor, cmds) {
 		return A2(
 			$elm$core$List$cons,
-			A4($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$fillText, txt.R, x, y, txt.K),
+			A4($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$fillText, txt.U, x, y, txt.M),
 			function () {
 				if (!maybeColor.$) {
 					var color = maybeColor.a;
@@ -6642,7 +6933,7 @@ var $joakin$elm_canvas$Canvas$renderTextStroke = F5(
 	function (txt, x, y, maybeColor, cmds) {
 		return A2(
 			$elm$core$List$cons,
-			A4($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$strokeText, txt.R, x, y, txt.K),
+			A4($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$strokeText, txt.U, x, y, txt.M),
 			function () {
 				if (!maybeColor.$) {
 					var color = maybeColor.a;
@@ -6657,7 +6948,7 @@ var $joakin$elm_canvas$Canvas$renderTextStroke = F5(
 	});
 var $joakin$elm_canvas$Canvas$renderTextDrawOp = F3(
 	function (drawOp, txt, cmds) {
-		var _v0 = txt.ai;
+		var _v0 = txt.al;
 		var x = _v0.a;
 		var y = _v0.b;
 		switch (drawOp.$) {
@@ -6734,11 +7025,11 @@ var $joakin$elm_canvas$Canvas$Internal$Texture$drawTexture = F4(
 			function () {
 				if (!t.$) {
 					var image = t.a;
-					return A9($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$drawImage, 0, 0, image.ax, image._, x, y, image.ax, image._, image.J);
+					return A9($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$drawImage, 0, 0, image.aA, image.ac, x, y, image.aA, image.ac, image.J);
 				} else {
 					var sprite = t.a;
 					var image = t.b;
-					return A9($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$drawImage, sprite.ay, sprite.az, sprite.ax, sprite._, x, y, sprite.ax, sprite._, image.J);
+					return A9($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$drawImage, sprite.aB, sprite.aC, sprite.aA, sprite.ac, x, y, sprite.aA, sprite.ac, image.J);
 				}
 			}(),
 			cmds);
@@ -6864,7 +7155,7 @@ var $joakin$elm_canvas$Canvas$Internal$Texture$decodeTextureImage = A2(
 				function (tagName, width, height) {
 					return (tagName === 'IMG') ? $elm$core$Maybe$Just(
 						$joakin$elm_canvas$Canvas$Internal$Texture$TImage(
-							{_: height, J: image, ax: width})) : $elm$core$Maybe$Nothing;
+							{ac: height, J: image, aA: width})) : $elm$core$Maybe$Nothing;
 				}),
 			A2($elm$json$Json$Decode$field, 'tagName', $elm$json$Json$Decode$string),
 			A2($elm$json$Json$Decode$field, 'width', $elm$json$Json$Decode$float),
@@ -6920,15 +7211,15 @@ var $joakin$elm_canvas$Canvas$toHtmlWith = F3(
 					$joakin$elm_canvas$Canvas$render(entities)),
 				A2(
 					$elm$core$List$cons,
-					$elm$html$Html$Attributes$height(options._),
+					$elm$html$Html$Attributes$height(options.ac),
 					A2(
 						$elm$core$List$cons,
-						$elm$html$Html$Attributes$width(options.ax),
+						$elm$html$Html$Attributes$width(options.aA),
 						attrs))),
 			A2(
 				$elm$core$List$cons,
 				_Utils_Tuple2('__canvas', $joakin$elm_canvas$Canvas$cnvs),
-				A2($elm$core$List$map, $joakin$elm_canvas$Canvas$renderTextureSource, options.au)));
+				A2($elm$core$List$map, $joakin$elm_canvas$Canvas$renderTextureSource, options.ax)));
 	});
 var $joakin$elm_canvas$Canvas$toHtml = F3(
 	function (_v0, attrs, entities) {
@@ -6936,7 +7227,7 @@ var $joakin$elm_canvas$Canvas$toHtml = F3(
 		var h = _v0.b;
 		return A3(
 			$joakin$elm_canvas$Canvas$toHtmlWith,
-			{_: h, au: _List_Nil, ax: w},
+			{ac: h, ax: _List_Nil, aA: w},
 			attrs,
 			entities);
 	});
@@ -6955,7 +7246,7 @@ var $author$project$Main$view = function (model) {
 				$author$project$Main$centerHeadlineStyle,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(model.av)
+						$elm$html$Html$text(model.ay)
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -6969,8 +7260,11 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						A2(
 							$elm$core$List$append,
-							A2($author$project$Main$renderText, center, radius),
-							A3($author$project$Main$renderPieChart, model.m, center, radius))),
+							A2(
+								$elm$core$List$append,
+								A2($author$project$Main$renderText, center, radius),
+								A3($author$project$Main$renderPieChart, model.m, center, radius)),
+							A2($author$project$Main$addHelperLines, center, radius))),
 						A2(
 						$elm$html$Html$div,
 						_List_fromArray(
@@ -7033,6 +7327,6 @@ var $author$project$Main$view = function (model) {
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{aS: $author$project$Main$init, a3: $author$project$Main$subscriptions, a4: $author$project$Main$update, a5: $author$project$Main$view});
+	{aT: $author$project$Main$init, a3: $author$project$Main$subscriptions, a4: $author$project$Main$update, a5: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
